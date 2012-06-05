@@ -62,6 +62,20 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
         require => Archive["elasticsearch-$version"]
       }
 
+      case $esDataPath {
+        "$esPath/data": {}
+        default: {
+
+          # ensure link to real data path exists
+          file { "$esPath/data":
+               ensure => link,
+               force => true,
+               target => "$esDataPath",
+               require => File["$esDataPath"],
+          }
+        }
+      }
+
       # Ensure the data path is created
       file { "$esDataPath":
            ensure => directory,
@@ -69,16 +83,6 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
            group  => "$esUser",
            require => File["$esPath"],
            recurse => true
-      }
-
-      # Ensure the link to the data path is set
-      file { "$esPath/data":
-           ensure => link,
-           force => true,
-           target => "$esDataPath",
-           # skip if data path is in es directory
-           unless => "test -d ${esPath}/data",
-           require => File["$esDataPath"],
       }
       
       # Symlink config to /etc
