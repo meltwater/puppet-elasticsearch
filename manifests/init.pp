@@ -9,7 +9,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/${esName}"
-      $esDataPath       = "${basepath}/${esBasename}/data"
+      $esDataPath       = "${esPath}/data"
       $esLibPath        = "${esDataPath}"
       $esLogPath        = "/var/log/${esBasename}"
       $esXms            = "256m"
@@ -51,7 +51,6 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
         target => "$basepath/src",
         src_target => "$basepath/src",
         checksum => false,
-        require  => File["$esPath"],
       }
 
       # link the new version to the installation dir
