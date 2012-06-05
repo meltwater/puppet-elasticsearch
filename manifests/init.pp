@@ -5,7 +5,7 @@
 # Usage:
 # include elasticsearch
 
-class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local" ) {
+class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java" ) {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/${esName}"
