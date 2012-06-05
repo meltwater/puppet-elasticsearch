@@ -24,7 +24,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       $esJarfile        = "${esName}.jar"
       
 
-     file { "/etc/scurity/limits.d":
+     file { "/etc/security/limits.d":
          ensure => directory,
          owner => root,
          group => root,
