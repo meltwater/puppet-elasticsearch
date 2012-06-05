@@ -29,14 +29,14 @@ start() {
   fi
 
   # Change directory to prevent path problems
-  cd <%= esHome %>
+  cd <%= esPath %>
   # Source JVM parameters
   test -r bin/elasticsearch.in.sh && . bin/elasticsearch.in.sh 
 
   # Remove pidfile if still around
   test -f $PIDFILE && rm -f $PIDFILE
 
-  COMMAND="<%= esHome %>/bin/elasticsearch" 
+  COMMAND="<%= esPath %>/bin/elasticsearch" 
   if [ "$SU" != "" ]; then
       $SU "umask 0002; $COMMAND" > /dev/null
   else
