@@ -62,7 +62,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       }
 
       exec { "chown $esPath":
-        command => "chown -r $user: $esPath",
+        command => "chown -R $user: $esPath",
         require => File["$esPath"]
       }
 
