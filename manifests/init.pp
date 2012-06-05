@@ -8,7 +8,7 @@
 class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java" ) {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
-      $esPath           = "${basepath}/${esName}"
+      $esPath           = "${basepath}/elasticsearch"
       $esDataPath       = "${esPath}/data"
       $esLibPath        = "${esDataPath}"
       $esLogPath        = "/var/log/${esBasename}"
@@ -59,6 +59,11 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
         ensure  => link,
         target => "$basepath/src/elasticsearch-$version",
         require => Archive["elasticsearch-$version"]
+      }
+
+      exec { "chown $esPath":
+        command => "chown -r $user: $esPath",
+        require => File["$esPath"]
       }
 
       case $esDataPath {
