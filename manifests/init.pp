@@ -112,8 +112,8 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       
       # Ensure logging directory
       file { "$esLogPath":
-           owner     => "$esBasename",
-           group     => "$esBasename",
+           owner     => "$user",
+           group     => "$user",
            ensure    => directory,
            recurse   => true,
            require => Archive["elasticsearch-$version"],
