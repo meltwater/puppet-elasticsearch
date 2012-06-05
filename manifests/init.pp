@@ -51,6 +51,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
         target => "$basepath/src",
         src_target => "$basepath/src",
         checksum => false,
+        allow_insecure => true,
       }
 
       # link the new version to the installation dir
