@@ -75,11 +75,11 @@ stop() {
   echo ""
 
   if [ "$count" -gt "$SHUTDOWN_WAIT" ]; then
-    echo "Forcing tomcat-<%= tomcat_name %> to stop"
+    echo "Forcing elasticsearch to stop"
     /bin/kill -9 $pid && sleep 5
   fi
 
-  # check if tomcat is still around, this will be our exit status
+  # check if elasticsearch is still around, this will be our exit status
   ! isrunning
 }
 
