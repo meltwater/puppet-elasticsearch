@@ -113,9 +113,9 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
 
       file { "$esPath/logs":
            ensure => link,
-           target => "/var/log/$esBasename",
+           target => "$esLogPath",
            force => true,
-           require => File["/var/log/$esBasename"]
+           require => File["$esLogPath"]
       }
             
       # Ensure the service is running
