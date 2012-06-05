@@ -31,7 +31,7 @@ start() {
   # Change directory to prevent path problems
   cd <%= esHome %>
   # Source JVM parameters
-  test -r <%= bin/elasticsearch.in.sh && . bin/elasticsearch.in.sh
+  test -r bin/elasticsearch.in.sh && . bin/elasticsearch.in.sh 
 
   # Remove pidfile if still around
   test -f $PIDFILE && rm -f $PIDFILE
