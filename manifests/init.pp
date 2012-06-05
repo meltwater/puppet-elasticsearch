@@ -38,7 +38,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
      }
 
      # Make sure we have the application path
-     file { "$esPath":
+     file { "$basepath/src":
              ensure     => directory,
              require    => User["$user"],
              owner      => "$user",
