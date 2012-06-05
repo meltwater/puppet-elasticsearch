@@ -41,8 +41,8 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
      file { "$basepath/src":
              ensure     => directory,
              require    => User["$user"],
-             owner      => "$user",
-             group      => "$user", 
+             owner      => $user,
+             group      => $user, 
              recurse    => true
       }
       
@@ -79,8 +79,8 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       # Ensure the data path is created
       file { "$esDataPath":
            ensure => directory,
-           owner  => "$esUser",
-           group  => "$esUser",
+           owner  => "$user",
+           group  => "$user",
            require => File["$esPath"],
            recurse => true
       }
