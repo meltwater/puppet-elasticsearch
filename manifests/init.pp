@@ -110,13 +110,6 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
            recurse   => true,
            require => Archive["elasticsearch-$version"],
       }
-      
-      # Ensure logging link is in place
-      file { "/var/log/$esBasename":
-           ensure => link,
-           target => "$esLogPath",
-           require => [File["${esLogPath}"], File["/etc/init.d/$esBasename"]]
-      }
 
       file { "$esPath/logs":
            ensure => link,
