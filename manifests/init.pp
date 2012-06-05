@@ -100,7 +100,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       
       # Create startup script
       file { "/etc/init.d/elasticsearch":
-           template => "elasticsearch/elasticsearch.init.d.erb",
+           content => template("elasticsearch/elasticsearch.init.d.erb"),
            owner  => root,
            group  => root,
            mode   => 744,
