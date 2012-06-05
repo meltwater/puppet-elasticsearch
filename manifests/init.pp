@@ -17,7 +17,7 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       $cluster          = "${name}"
       $esTCPPortRange   = "9300-9399"
       $esHTTPPortRange  = "9200-9299"
-      $esUlimitNofile   = "32000"
+      $esUlimitNofile   = "64000"
       $esUlimitMemlock  = "unlimited"
       $esPidpath        = "/var/run"
       $esPidfile        = "${esPidpath}/${esBasename}.pid"
