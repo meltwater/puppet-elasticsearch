@@ -5,7 +5,7 @@
 # Usage:
 # include elasticsearch
 
-class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java" ) {
+class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch" ) {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/elasticsearch"
@@ -14,7 +14,6 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       $esLogPath        = "/var/log/${esBasename}"
       $esXms            = "256m"
       $esXmx            = "${xmx}"
-      $cluster          = "${name}"
       $esTCPPortRange   = "9300-9399"
       $esHTTPPortRange  = "9200-9299"
       $esUlimitNofile   = "64000"
