@@ -1,22 +1,21 @@
-To use this module:
-1.) You will need to download the version of elasticsearch you are running and add it to the modules /files folder.
-    http://www.elasticsearch.org/download/
-2.) You will also need to download the elasticsearch service wrapper
-    https://github.com/elasticsearch/elasticsearch-servicewrapper
-    
+Dependencies:
+
+You need to have https://github.com/meltwater/puppet-archive in your module path. You might want to include https://github.com/meltwater/puppet-java as well. 
+The manifest was only tested on CentOS.
+
 Usage:
 
 In your templates.pp or nodes.pp or wherever you define your server roles and applications you can call the elasticsearch module like so:
 
-class role_prod_dbserver {
-    class { elasticsearch: version => "0.15.2" }
+node /mw-dev-es-\d\d\d/ {
+    class { elasticsearch: 
+      version => "0.15.2",
+      user => "www-data",
+      basepath => "/meltwater"
+    }
 }
 
-This version number should correspond to the version of ES you downloaded from the above link.
-The filenames should look like: 
-/etc/puppet/modules/elasticsearch/files/elasticsearch-${version}.tar.gz 
-- and -
-/etc/puppet/modules/elasticsearch/files/elasticsearch-servicewrapper.tar.gz
+elasticsearch will be downloaded as tgz from github.
 
-For additional information see my blog post here:
-http://www.visibiz.com/blog/hunter/elasticsearch/elasticsearch-puppet-module
+The module will install a simple init.d script, code borrowed from https://github.com/camptocamp/puppet-tomcat
+
