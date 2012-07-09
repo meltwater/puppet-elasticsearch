@@ -1,4 +1,4 @@
-﻿# Managed by Puppet, DO NOT TOUCH!
+# Managed by Puppet, DO NOT TOUCH!
 
 rootLogger: INFO, console, file
 logger:
@@ -18,10 +18,13 @@ logger:
   #discovery: TRACE
 
   index.search.slowlog: TRACE, index_search_slow_log_file
-# test
+  index.search.slowlog.threshold.query.warn: 10s
+  index.search.slowlog.threshold.query.info: 5s
+  index.search.slowlog.threshold.query.debug: 2s
+  index.search.slowlog.threshold.query.trace: 500ms
 
 additivity:
-  index.search.slowlog: false
+  index.search.slowlog: true
 
 appender:
   console:
