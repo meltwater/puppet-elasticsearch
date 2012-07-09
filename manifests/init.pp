@@ -101,6 +101,12 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
              require => File["/etc/$esBasename"]      
       }
       
+	  # Apply logging template for search
+      file { "$esPath/config/logging.yml":
+             content => template("elasticsearch/logging.yml.erb"),
+             require => File["/etc/$esBasename"]    
+      }
+	  
       # Create startup script
       file { "/etc/init.d/elasticsearch":
            content => template("elasticsearch/elasticsearch.init.d.erb"),
