@@ -5,14 +5,14 @@
 # Usage:
 # include elasticsearch
 
-class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true ) {
+class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true) {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/elasticsearch"
       $esDataPath       = "${esPath}/data"
       $esLibPath        = "${esDataPath}"
       $esLogPath        = "/var/log/${esBasename}"
-      $esXms            = "256m"
+      $esXms            = "${xms}"
       $esXmx            = "${xmx}"
       $esTCPPortRange   = "9300-9399"
       $esHTTPPortRange  = "9200-9299"
@@ -113,6 +113,12 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
            owner  => root,
            group  => root,
            mode   => 744,
+      }
+
+      # Apply startup config shell script
+      file { "$esPath/bin/elasticsearch.in.sh":
+              content => template("elasticsearch/elasticsearch.in.sh.erb"),
+              require => File["/etc/$esBasename"],
       }
       
       # Ensure logging directory
