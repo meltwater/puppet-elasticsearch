@@ -5,11 +5,18 @@
 # Usage:
 # include elasticsearch
 
-class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true) {
+class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true, $datapath = "default") {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/elasticsearch"
-      $esDataPath       = "${esPath}/data"
+      
+      if $datapath == "default" {
+        $esDataPath     = "${esPath}/data"
+      }
+      else {
+        $esDataPath     = $datapath
+      }
+
       $esLibPath        = "${esDataPath}"
       $esLogPath        = "/var/log/${esBasename}"
       $esXms            = "${xms}"
