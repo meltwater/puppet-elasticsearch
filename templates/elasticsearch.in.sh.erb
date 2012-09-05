@@ -55,3 +55,9 @@ JAVA_OPTS="$JAVA_OPTS -XX:+HeapDumpOnOutOfMemoryError"
 # The path to the heap dump location, note directory must exists and have enough
 # space for a full heap dump.
 #JAVA_OPTS="$JAVA_OPTS -XX:HeapDumpPath=$ES_HOME/logs/heapdump.hprof"
+
+# SPM Monitoring
+if [ "<%= esSPM %>" == "enabled" ]; then
+	JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote -javaagent:<%= esSPMjar %>=<%= esSPMconfig %>"
+
+

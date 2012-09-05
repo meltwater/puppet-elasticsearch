@@ -5,7 +5,7 @@
 # Usage:
 # include elasticsearch
 
-class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true, $datapath = "default", $tcpcompress = false) {
+class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true, $datapath = "default", $tcpcompress = false, $spmkey = "none") {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/elasticsearch"
@@ -29,6 +29,18 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
       $esPidfile        = "${esPidpath}/${esBasename}.pid"
       $esJarfile        = "${esName}.jar"
       $esTCPCompress    = $tcpcompress
+
+      # SPM settings
+      if $spmkey == "none" {
+        $esSPM          = "disabled"
+      }
+      else {
+        $esSPM          = "enabled"
+        $esSPMjar       = "/spm/spm-monitor/lib/spm-monitor-es-1.6.0-withdeps.jar"
+        $esSPMconfig    = "/spm/spm-monitor/conf/spm-monitor-config-${spmkey}.xml"
+      }
+      
+      
       
 
      file { "/etc/security/limits.d":
