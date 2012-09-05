@@ -31,10 +31,10 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
       $esTCPCompress    = $tcpcompress
 
       # SPM settings
-      if $spmkey == "none" {
-        $esSPM          = "disabled"
-      }
-      else {
+      $esSPM          = "disabled"
+      $esSPMjar       = ""
+      $esSPMconfig    = ""
+      if $spmkey != "none" {
         $esSPM          = "enabled"
         $esSPMjar       = "/spm/spm-monitor/lib/spm-monitor-es-1.6.0-withdeps.jar"
         $esSPMconfig    = "/spm/spm-monitor/conf/spm-monitor-config-${spmkey}.xml"
