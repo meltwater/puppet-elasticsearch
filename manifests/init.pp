@@ -33,7 +33,7 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
       # SPM settings
       $esSPMkey         = $spmkey
       $esSPMjar         = "/spm/spm-monitor/lib/spm-monitor-es-1.6.0-withdeps.jar"
-      $esSPMconfig      = "/spm/spm-monitor/conf/spm-monitor-config-${spmkey}.xml"
+      $esSPMconfig      = "/spm/spm-monitor/conf/spm-monitor-config-${spmkey}-default.xml"
       
       
       
