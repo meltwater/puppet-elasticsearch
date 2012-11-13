@@ -3,6 +3,7 @@
 transport:
         tcp:
                 port: <%= esTCPPortRange %>
+                compress: <%= esTCPCompress %>
 
 http:
         port: <%= esHTTPPortRange %>
@@ -26,3 +27,23 @@ threadpool:
         <% end -%>
 <% end -%>
 <% end -%>
+
+
+node:
+        data: <%= nodedata %>
+
+################################## Slow Log ##################################
+
+# Shard level query and fetch threshold logging.
+
+index.search.slowlog.level: TRACE
+index.search.slowlog.threshold.query.warn: 10s
+index.search.slowlog.threshold.query.info: 5s
+index.search.slowlog.threshold.query.debug: 2s
+index.search.slowlog.threshold.query.trace: 500ms
+
+index.search.slowlog.threshold.fetch.warn: 1s
+index.search.slowlog.threshold.fetch.info: 800ms
+index.search.slowlog.threshold.fetch.debug: 500ms
+index.search.slowlog.threshold.fetch.trace: 200ms
+

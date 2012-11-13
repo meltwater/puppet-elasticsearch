@@ -5,14 +5,21 @@
 # Usage:
 # include elasticsearch
 
-class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $threadpools ) {
+class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user = "elasticsearch", $basepath = "/usr/local", $javahome = "/usr/lib/jvm/java", $clustername = "elasticsearch", $nodedata = true, $datapath = "default", $tcpcompress = false, $spmkey = "none", $threadpools) {
       $esBasename       = "elasticsearch"
       $esName           = "${esBasename}-${version}"
       $esPath           = "${basepath}/elasticsearch"
-      $esDataPath       = "${esPath}/data"
+      
+      if $datapath == "default" {
+        $esDataPath     = "${esPath}/data"
+      }
+      else {
+        $esDataPath     = $datapath
+      }
+
       $esLibPath        = "${esDataPath}"
       $esLogPath        = "/var/log/${esBasename}"
-      $esXms            = "256m"
+      $esXms            = "${xms}"
       $esXmx            = "${xmx}"
       $esTCPPortRange   = "9300-9399"
       $esHTTPPortRange  = "9200-9299"
@@ -21,6 +28,14 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
       $esPidpath        = "/var/run"
       $esPidfile        = "${esPidpath}/${esBasename}.pid"
       $esJarfile        = "${esName}.jar"
+      $esTCPCompress    = $tcpcompress
+
+      # SPM settings
+      $esSPMkey         = $spmkey
+      $esSPMjar         = "/spm/spm-monitor/lib/spm-monitor-es-1.6.0-withdeps.jar"
+      $esSPMconfig      = "/spm/spm-monitor/conf/spm-monitor-config-${spmkey}-default.xml"
+      
+      
       
 
      file { "/etc/security/limits.d":
@@ -101,12 +116,24 @@ class elasticsearch( $version = "0.15.2", $xmx = "2048m", $user = "elasticsearch
              require => File["/etc/$esBasename"]      
       }
       
+	  # Apply logging template for search
+      file { "$esPath/config/logging.yml":
+             content => template("elasticsearch/logging.yml.erb"),
+             require => File["/etc/$esBasename"]    
+      }
+	  
       # Create startup script
       file { "/etc/init.d/elasticsearch":
            content => template("elasticsearch/elasticsearch.init.d.erb"),
            owner  => root,
            group  => root,
            mode   => 744,
+      }
+
+      # Apply startup config shell script
+      file { "$esPath/bin/elasticsearch.in.sh":
+              content => template("elasticsearch/elasticsearch.in.sh.erb"),
+              require => File["/etc/$esBasename"],
       }
       
       # Ensure logging directory
