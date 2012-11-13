@@ -16,3 +16,13 @@ path:
 
 boostrap:
         mlockall: true
+
+<% unless threadpools.nil? -%>
+threadpool:
+<% threadpools.keys.each do |type| %>
+        <%= type %>:
+        <% threadpools[type].each do |k,v| -%>
+                <%= k %>: <%= v %>
+        <% end -%>
+<% end -%>
+<% end -%>
