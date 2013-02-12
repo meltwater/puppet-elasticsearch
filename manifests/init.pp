@@ -61,7 +61,7 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
       
       # download and extract archive
       archive { "elasticsearch-${version}":
-        url => "http://cloud.github.com/downloads/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz",
+        url => "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz",
         target => "$basepath/src",
         src_target => "$basepath/src",
         checksum => false,
