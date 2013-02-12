@@ -18,7 +18,7 @@ path:
 boostrap:
         mlockall: true
 
-<% unless threadpools.nil? -%>
+<% if threadpools -%>
 threadpool:
 <% threadpools.keys.each do |type| %>
         <%= type %>:
