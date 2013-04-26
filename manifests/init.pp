@@ -127,7 +127,7 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
            content => template("elasticsearch/elasticsearch.init.d.erb"),
            owner  => root,
            group  => root,
-           mode   => 744,
+           mode   => '0744',
       }
 
       # Apply startup config shell script
