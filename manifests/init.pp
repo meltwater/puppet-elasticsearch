@@ -17,10 +17,10 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
         $esDataPath     = $datapath
       }
 
-      $esLibPath        = "${esDataPath}"
+      $esLibPath        = $esDataPath
       $esLogPath        = "/var/log/${esBasename}"
-      $esXms            = "${xms}"
-      $esXmx            = "${xmx}"
+      $esXms            = $xms
+      $esXmx            = $xmx
       $esTCPPortRange   = "9300-9399"
       $esHTTPPortRange  = "9200-9299"
       $esUlimitNofile   = "64000"
@@ -45,14 +45,14 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
      }
 
      file { "/etc/security/limits.d/${esBasename}.conf":
-          content => template("elasticsearch/elasticsearch.limits.conf.erb"),
           ensure => present,
+          content => template("elasticsearch/elasticsearch.limits.conf.erb"),
           owner => root,
           group => root,
      }
 
      # Make sure we have the application path
-     file { "$basepath/src":
+     file { "${basepath}/src":
            ensure     => directory,
            owner      => $user,
            group      => $user, 
@@ -62,64 +62,64 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
       # download and extract archive
       archive { "elasticsearch-${version}":
         url => "http://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${version}.tar.gz",
-        target => "$basepath/src",
-        src_target => "$basepath/src",
+        target => "${basepath}/src",
+        src_target => "${basepath}/src",
         checksum => false,
         allow_insecure => true,
       }
 
       # link the new version to the installation dir
-      file { "$esPath":
+      file { $esPath:
         ensure  => link,
-        target => "$basepath/src/elasticsearch-$version",
-        require => Archive["elasticsearch-$version"]
+        target => "${basepath}/src/elasticsearch-${version}",
+        require => Archive["elasticsearch-${version}"]
       }
 
-      exec { "chown $esPath":
-        command => "chown -R $user: $esPath",
-        require => File["$esPath"]
+      exec { "chown ${esPath}":
+        command => "chown -R ${user}: ${esPath}",
+        require => File[$esPath]
       }
 
       case $esDataPath {
-        "$esPath/data": {}
+        "${esPath}/data": {}
         default: {
 
           # ensure link to real data path exists
-          file { "$esPath/data":
+          file { "${esPath}/data":
                ensure => link,
                force => true,
-               target => "$esDataPath",
-               require => File["$esDataPath"],
+               target => $esDataPath,
+               require => File[$esDataPath],
           }
         }
       }
 
       # Ensure the data path is created
-      file { "$esDataPath":
+      file { $esDataPath:
            ensure => directory,
-           owner  => "$user",
-           group  => "$user",
-           require => File["$esPath"],
-           recurse => true
+           owner  => $user,
+           group  => $user,
+           require => File[$esPath],
+           recurse => true,
       }
       
       # Symlink config to /etc
-      file { "/etc/$esBasename":
+      file { "/etc/${esBasename}":
              ensure => link,
-             target => "$esPathLink/config",
-             require => Archive["elasticsearch-$version"],
+             target => "${esPathLink}/config",
+             require => Archive["elasticsearch-${version}"],
       }
 
       # Apply config template for search
-      file { "$esPath/config/elasticsearch.yml":
+      file { "${esPath}/config/elasticsearch.yml":
              content => template("elasticsearch/elasticsearch.yml.erb"),
-             require => File["/etc/$esBasename"]      
+             require => File["/etc/${esBasename}"],      
       }
       
 	  # Apply logging template for search
-      file { "$esPath/config/logging.yml":
+      file { "${esPath}/config/logging.yml":
              content => template("elasticsearch/logging.yml.erb"),
-             require => File["/etc/$esBasename"]    
+             require => File["/etc/${esBasename}"],
       }
 	  
       # Create startup script
@@ -131,33 +131,33 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
       }
 
       # Apply startup config shell script
-      file { "$esPath/bin/elasticsearch.in.sh":
+      file { "${esPath}/bin/elasticsearch.in.sh":
               content => template("elasticsearch/elasticsearch.in.sh.erb"),
-              require => File["/etc/$esBasename"],
+              require => File["/etc/${esBasename}"],
       }
       
       # Ensure logging directory
-      file { "$esLogPath":
-           owner     => "$user",
-           group     => "$user",
+      file { $esLogPath:
            ensure    => directory,
+           owner     => $user,
+           group     => $user,
            recurse   => true,
-           require => Archive["elasticsearch-$version"],
+           require => Archive["elasticsearch-${version}"],
       }
 
-      file { "$esPath/logs":
+      file { "${esPath}/logs":
            ensure => link,
-           target => "$esLogPath",
+           target => $esLogPath,
            force => true,
-           require => File["$esLogPath"]
+           require => File[$esLogPath],
       }
             
       # Ensure the service is running
-      service { "$esBasename":
-            enable => true,
+      service { $esBasename:
             ensure => running,
+            enable => true,
             hasrestart => true,
-            require => File["$esPath/logs"]
+            require => File["${esPath}/logs"],
       }
 
 }
