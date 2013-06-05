@@ -157,7 +157,7 @@ class elasticsearch( $version = "0.15.2", $xms = "256m", $xmx = "2048m", $user =
             ensure => running,
             enable => true,
             hasrestart => true,
-            require => File["${esPath}/logs"],
+            require => [ File["${esPath}/logs"], File["${esPath}/config/elasticsearch.yml"] ],
       }
 
 }
