@@ -67,7 +67,6 @@ class elasticsearch(
     ensure     => directory,
     owner      => $user,
     group      => $user,
-    recurse    => true
   }
 
   # download and extract archive
@@ -77,6 +76,13 @@ class elasticsearch(
     src_target     => "${basepath}/src",
     checksum       => false,
     allow_insecure => true,
+  }
+  ->
+  file { "${basepath}/src/elasticsearch-${version}":
+    ensure     => directory,
+    owner      => $user,
+    group      => $user,
+    recurse    => true
   }
 
   # link the new version to the installation dir
