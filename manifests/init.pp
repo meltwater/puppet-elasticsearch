@@ -94,6 +94,7 @@ class elasticsearch(
 
   exec { "chown ${esPath}":
     command => "chown -R ${user}: ${esPath}",
+    unless  => "find ${esPath} -maxdepth 2 -not -user ${user}",
     require => File[$esPath]
   }
 
