@@ -82,7 +82,6 @@ class elasticsearch(
     ensure     => directory,
     owner      => $user,
     group      => $user,
-    recurse    => true
   }
 
   # link the new version to the installation dir
