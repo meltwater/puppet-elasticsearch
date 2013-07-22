@@ -117,7 +117,6 @@ class elasticsearch(
     owner   => $user,
     group   => $user,
     require => File[$esPath],
-    recurse => true,
   }
 
   # Symlink config to /etc
